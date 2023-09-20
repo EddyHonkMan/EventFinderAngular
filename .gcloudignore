@@ -1,0 +1,6 @@
+*
+!dist
+!app.yaml
+!package.json
+!package-lock.json
+!server.js

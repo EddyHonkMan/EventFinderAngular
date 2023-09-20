@@ -1,0 +1,9 @@
+<div #textContainer class="expandable-text" [ngStyle]="{ '-webkit-line-clamp': (isExpanded ? 'unset' : lines), 'line-clamp': (isExpanded ? 'unset' : lines)}">
+  {{ text }}
+</div>
+<div *ngIf="textOverflowing" class="d-flex justify-content-center">
+  <div  (click)="toggleExpand()" class="text-decoration-underline clickable d-inline-block me-1" style="color: rgb(121,180,200)">
+    {{ isExpanded ? 'Show Less' : 'Show More' }}
+  </div>
+  <div class="d-inline-block m-0" [ngClass]="{'down-arrow':!isExpanded, 'up-arrow':isExpanded}"></div>
+</div>

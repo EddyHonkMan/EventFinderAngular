@@ -1,0 +1,31 @@
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-image: url('./assets/images/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-height: 100vh;
+  background-attachment: fixed;
+}
+
+.clickable{
+  cursor: pointer;
+}
+
+.modal-backdrop.show{
+  opacity: 0!important;
+}
+
+.bg-blur{
+  background-color: rgba(100,100,100,0.4);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.header{
+  color: rgb(154,252,229);
+  font-weight: 500;
+  font-size: 1.5rem;
+}

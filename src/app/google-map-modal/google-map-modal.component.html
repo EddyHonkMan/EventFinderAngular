@@ -1,0 +1,26 @@
+<div>
+  <div #map class="modal fade" id="oneAndOnlyModal" tabindex="-1">
+    <div class="modal-dialog m-auto">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Event Venue</h1>
+        </div>
+        <div class="modal-body">
+          <div class="container px-0">
+            <div class="row">
+              <div class="col-12 align-items-center mx-0">
+                <google-map [options]="venueLocationService.mapOptions" [width]="null" [height]="350" class="my-google-map">
+                  <map-marker [position]="venueLocationService.marker.position"></map-marker>
+                </google-map>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-start">
+          <button type="button" class="btn btn-dark ms-3" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,28 @@
+<div class="container text-white text-center">
+    <div class="table-responsive">
+      <div *ngIf="haveFavorites" class="header mb-3 fs-4">List of your favorite events</div>
+      <table *ngIf="haveFavorites; else noResult" class="table rounded-4 table-light overflow-hidden">
+        <tbody>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Event</th>
+          <th>Category</th>
+          <th>Venue</th>
+          <th>Favorite</th>
+        </tr>
+        <tr *ngFor="let e of favorites; let i = index">
+          <td>{{i + 1}}</td>
+          <td>{{ e['date'] }}</td>
+          <td>{{ e['eventName'] }}</td>
+          <td>{{ e['category'] }}</td>
+          <td>{{ e['venue'] }}</td>
+          <td><i class="bi bi-trash clickable" (click)="removeFavorite(e['key'])"></i></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noResult>
+      <div class="bg-light text-danger rounded-5 fw-bold col-md-6 col-8 mx-auto">No favorite events to show</div>
+    </ng-template>
+</div>

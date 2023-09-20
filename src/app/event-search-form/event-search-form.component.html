@@ -1,0 +1,65 @@
+<div class="container mt-5">
+  <div class="row justify-content-center mx-1">
+    <div class="col-lg-6 col-sm-12 search-form bg-blur">
+      <p class="text-white text-center mt-5 mb-3 form-title">Events Search</p>
+      <hr class="border border-1 opacity-100">
+      <form ngNativeValidate #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm)" class="row gx-6">
+        <div class="form-group col-12 mb-3">
+          <label for="keyword" class="form-label required">Keyword</label>
+          <input type="text" class="form-control" id="keyword" name="keyword" [(ngModel)]="keyword" required
+                 [matAutocomplete]="auto" [formControl]="keywordControl">
+          <mat-autocomplete #auto="matAutocomplete">
+            <ng-container *ngIf="keyword.trim().length != 0">
+              <mat-option *ngIf="isLoading">
+                <mat-spinner diameter="20"></mat-spinner>
+              </mat-option>
+              <ng-container *ngIf="!isLoading">
+                <mat-option *ngFor="let option of autocompleteOptions" [value]="option">
+                  {{ option }}
+                </mat-option>
+              </ng-container>
+            </ng-container>
+          </mat-autocomplete>
+        </div>
+        <div class="form-group col-md-6 mb-3">
+          <label for="distance" class="form-label">Distance</label>
+          <input type="number" class="form-control" id="distance" name="distance" [(ngModel)]="distance" [placeholder]="distancePlaceHolder" min="1">
+        </div>
+        <div class="form-group col-md-6 mb-3">
+          <label for="category" class="form-label required">Category</label>
+          <select class="form-select w-75" id="category" name="category" [(ngModel)]="category" required>
+            <option *ngFor="let option of categories" [value]="option">{{option}}</option>
+          </select>
+        </div>
+        <div class="form-group col-12 mb-3">
+          <label for="location" class="form-label required">Location</label>
+          <input type="text" class="form-control" id="location" name="location" [(ngModel)]="location"  required [disabled]="autodetect">
+        </div>
+        <div class="col-12 mb-3">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input me-1" id="autodetect" name="autodetect" [(ngModel)]="autodetect" (change)="location=''">
+            <label class="form-check-label" for="autodetect">Auto-detect your location</label>
+          </div>
+        </div>
+        <div class="col-6 text-end" [style.margin-bottom]="'3rem'">
+          <button type="submit" class="btn btn-danger">SUBMIT</button>
+        </div>
+        <div class="col-6" [style.margin-bottom]="'3rem'">
+          <button type="button" class="btn btn-primary" (click)="onClear()">CLEAR</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<ng-container *ngIf="submitted">
+  <div [style.padding-bottom]="'10rem'">
+    <app-result-table [table]="table" *ngIf="!selectedEvent && table"
+                      (entrySelectEvent)="selectedEvent = $event"></app-result-table>
+    <app-event-detail *ngIf="selectedEvent" [item]="selectedEvent"
+                      (goBackEvent)="selectedEvent = $event"></app-event-detail>
+  </div>
+</ng-container>
+
+<app-google-map-modal></app-google-map-modal>

@@ -1,0 +1,6 @@
+/* Width for small screens */
+@media screen and (max-width: 576px) {
+  .modal-dialog {
+    width: 350px;
+  }
+}

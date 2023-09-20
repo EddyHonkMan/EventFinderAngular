@@ -1,0 +1,12 @@
+.active-anchor{
+  border: 2px solid white;
+  border-radius: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+.artist-profile-img{
+  width: 70%;
+  height: 70%;
+  overflow: hidden;
+  border-radius: 50%;
+}

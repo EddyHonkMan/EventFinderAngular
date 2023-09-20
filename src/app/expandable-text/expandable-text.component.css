@@ -1,0 +1,30 @@
+.expandable-text {
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: clip;
+  -webkit-box-orient: vertical;
+}
+
+.down-arrow{
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 2px solid white;
+  transform: rotate(45deg);
+  border-left: none;
+  border-top: none;
+  margin: 0 auto;
+  display: inline-block;
+  margin-top: 0.35rem!important;
+}
+
+.up-arrow{
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 2px solid white;
+  transform: rotate(45deg);
+  border-right: none;
+  border-bottom: none;
+  margin: 0 auto;
+  display: inline-block;
+  margin-top: 0.58rem!important;
+}

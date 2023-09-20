@@ -1,0 +1,17 @@
+.clickable{
+  cursor: pointer;
+}
+
+.table.table-dark>tbody>tr:nth-of-type(odd)>* {
+  background-color: rgb(33,37,41); /* light background color */
+}
+
+.table.table-dark>tbody>tr:nth-of-type(even)>* {
+  background-color: rgb(44,47,52); /* dark background color */
+}
+
+.event-icon{
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}

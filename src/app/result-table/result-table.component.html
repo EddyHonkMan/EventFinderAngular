@@ -1,0 +1,31 @@
+<div class="container text-center">
+  <div class="row justify-content-center">
+    <div class="col-md-12 col-lg-10 col-sm-12">
+      <div class="table-responsive" [style.border-radius]="'1rem'">
+          <table *ngIf="table && table.length != 0; else noResult" class="table table-dark text-center">
+            <tbody>
+            <tr>
+              <th>Date/Time</th>
+              <th>Icon</th>
+              <th>Event</th>
+              <th>Genre</th>
+              <th>Venue</th>
+            </tr>
+            <tr *ngFor="let e of table" (click)="onSelect(e)" class="clickable">
+              <td>{{ e.date }}<br>{{e.time}}</td>
+              <td>
+                <img src="{{e.icon}}" alt="" class="event-icon">
+              </td>
+              <td>{{ e.eventName }}</td>
+              <td>{{ e.genre }}</td>
+              <td>{{ e.venue }}</td>
+            </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+  <ng-template #noResult>
+    <div class="bg-light text-danger rounded-5 fw-bold">No results available</div>
+  </ng-template>
+</div>

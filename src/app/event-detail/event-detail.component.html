@@ -1,0 +1,187 @@
+<div class="container">
+  <div class="row px-2 mx-0 justify-content-center">
+    <div class="col-lg-10 bg-blur text-white mb-4">
+      <div class="row pt-2">
+        <div class="text-start ms-2 align-items-center">
+          <div class="d-inline-block">
+            <a (click)="goBack()" id="back-anchor">
+              <div id="back-arrow" class="d-inline-block"></div>
+              <div class="d-inline-block" style="text-decoration: underline">Back</div>
+            </a>
+          </div>
+        </div>
+        <div class="text-center align-items-center justify-content-center d-flex my-4">
+          <div class="fs-3 fw-bold">
+              {{item?.eventName || ''}}
+              <div class="bg-white d-inline-block position-relative clickable align-middle" (click)="changeFavoriteStatus()" style="border-radius: 50%; height: 2.5rem; width: 2.5rem">
+                <i class="bi position-absolute start-50 translate-middle fs-4"  [ngClass]="{'text-danger bi-heart-fill': isFavorited(), 'text-dark bi-heart': !isFavorited()}" style="top: 57%!important;"></i>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <mat-tab-group mat-align-tabs="center" backgroundColor="primary" dynamicHeight class="px-0">
+          <mat-tab label="Events">
+            <div class="row mx-0 mt-4">
+              <div class="col-md col-sm-12 text-center">
+                <div *ngIf="date" class="mb-2">
+                  <p class="header mb-0">Date</p>
+                  {{date}}
+                </div>
+                <div *ngIf="attractions" class="mb-2">
+                  <p class="header mb-0">Artist/Team</p>
+                  {{attractions}}
+                </div>
+                <div *ngIf="venueName" class="mb-2">
+                  <p class="header mb-0">Venue</p>
+                  {{venueName}}
+                </div>
+                <div *ngIf="types" class="mb-2">
+                  <p class="header mb-0">Genre</p>
+                  {{types}}
+                </div>
+                <div *ngIf="priceRange" class="mb-2">
+                  <p class="header mb-0">Price Ranges</p>
+                  {{priceRange}}
+                </div>
+                <div *ngIf="status" class="mb-2">
+                  <p class="header mb-0">Ticket Status</p>
+                  <button [ngClass]="getTicketStatusButtonClass()" class="btn ts-btn ts-btn py-1">{{status}}</button>
+                </div>
+                <div *ngIf="buyTicketUrl" class="mb-2">
+                  <p class="header mb-0">Buy Ticket At</p>
+                  <a [href]="buyTicketUrl" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+                </div>
+              </div>
+              <div *ngIf="seatMapUrl" class="col-md col-sm-12 d-flex align-items-center justify-content-lg-start justify-content-md-start justify-content-center">
+                <img [src]="seatMapUrl" style="width: 80%; height: auto">
+              </div>
+            </div>
+            <div class="col text-center text-white d-flex justify-content-center align-items-center mb-3">
+              <div class="d-inline-block me-2">
+                Share on:
+              </div>
+              <div class="fs-3 d-inline-block">
+                <a [href]="getTwitterShareHref()" target="_blank" rel="noopener noreferrer">
+                  <i class="bi bi-twitter d-inline-block me-2" style="color: rgb(9,166,210);"></i>
+                </a>
+                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{buyTicketUrl}}&amp;src=sdkpreparse"
+                   rel="noopener noreferrer">
+                  <i class="bi bi-facebook d-inline-block" style="color: rgb(23,81,209);"></i>
+                </a>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Artist/Teams">
+            <div class="col justify-content-center d-flex">
+              <div *ngIf="musicRelated && (artistsInfo?.length || 0) > 0; else notMusicRelated" class="w-100">
+                <div id="carouselControls" class="carousel slide col w-100">
+                  <button *ngIf="artistsInfo.length > 1" class="carousel-control-arrow carousel-control-prev" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                  </button>
+                  <div class="carousel-inner mx-auto">
+                    <div class="carousel-item" *ngFor="let artist of artistsInfo; let i = index;" [class.active]="i === 0">
+                      <div class="col mx-0 text-center">
+                        <div class="row justify-content-center align-items-center mb-4 mt-3">
+                          <div class="col-md-3 col-sm-12">
+                            <div style="width: 70%; height: 70%;" class="mx-auto mb-2 row align-items-center justify-content-center">
+                              <div *ngIf="artist?.images[0]?.url; else noProfileImg" class="p-0">
+                                <img [src]="artist.images[0].url" class="artist-profile-img">
+                              </div>
+                              <ng-template #noProfileImg>
+                                <div class="text-center text-danger row align-items-center fs-5 fw-semibold" style="min-height: 140px">Artist profile image not found</div>
+                              </ng-template>
+                            </div>
+                            <p class="header mb-3">{{artist?.name || undefined}}</p>
+                          </div>
+                          <div class="col">
+                            <div class="row">
+                              <div class="col-md-4 col-sm-12 mb-3">
+                                <div class="header mb-2">Popularity</div>
+                                <div class="position-relative">
+                                  <mat-progress-spinner mode="determinate" value="{{artist?.popularity}}" class="mx-auto" diameter="40" color="warn"></mat-progress-spinner>
+                                  <div class="position-absolute start-50 top-50 translate-middle d-inline-block">{{artist?.popularity}}</div>
+                                </div>
+                              </div>
+                              <div class="col-md-4 col-sm-12 mb-3">
+                                <div class="header mb-2">Followers</div>
+                                <div class="fw-bold">
+                                  {{(artist?.followers?.total || undefined).toLocaleString()}}
+                                </div>
+                              </div>
+                              <div class="col-md-4 col-sm-12 mb-3">
+                                <div class="header">Spotify Link</div>
+                                <a target="_blank" href="{{artist?.external_urls?.spotify || undefined}}" rel="noopener noreferrer">
+                                  <i class="bi bi-spotify fs-1" style="color: rgb(15,128,21);"></i>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="col-md-12 col-8">
+                            <p class="header mb-4 col text-start fs-6">Album featuring {{artist?.name || undefined}}</p>
+                            <div class="row gx-5 justify-content-center">
+                              <div class="col-md-4 mb-4" *ngFor="let album of artistsAlbums[i]">
+                                <img  src="{{album.images?.[0]?.url}}" class="img-fluid">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button *ngIf="artistsInfo.length > 1" class="carousel-control-arrow carousel-control-next" type="button" data-bs-target="#carouselControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <ng-template #notMusicRelated>
+              <div class="bg-light text-danger rounded-5 fw-bold text-center w-75" style="margin-top: 6rem; margin-bottom: 8rem;">
+                No music related artist details to show
+              </div>
+            </ng-template>
+          </mat-tab>
+          <mat-tab label="Venue" class="justify-content-center">
+            <div class="row mb-3">
+              <div class="col-md text-center mt-4">
+                <div *ngIf="venueDetails?.name" class="mb-2">
+                  <p class="header mb-0">Name</p>
+                  {{venueDetails.name}}
+                </div>
+                <div *ngIf="venueDetails?.address?.line1" class="mb-2">
+                  <p class="header mb-0">Address</p>
+                  {{getFormattedAddress()}}
+                </div>
+                <div *ngIf="venueDetails?.boxOfficeInfo?.phoneNumberDetail" class="mb-2">
+                  <p class="header mb-0">Phone Number</p>
+                  {{venueDetails.boxOfficeInfo.phoneNumberDetail}}
+                </div>
+              </div>
+              <div *ngIf="venueDetails?.boxOfficeInfo?.openHoursDetail || venueDetails?.generalInfo?.generalRule || venueDetails?.generalInfo?.childRule" class="col-md text-center mt-4">
+                <div *ngIf="venueDetails?.boxOfficeInfo?.openHoursDetail" class="mb-2">
+                  <p class="header mb-0">Open Hours</p>
+                  <app-expandable-text [text]="venueDetails.boxOfficeInfo.openHoursDetail"></app-expandable-text>
+                </div>
+                <div *ngIf="venueDetails?.generalInfo?.generalRule" class="mb-2">
+                  <p class="header mb-0">General Rule</p>
+                  <app-expandable-text [text]="venueDetails.generalInfo.generalRule"></app-expandable-text>
+                </div>
+                <div *ngIf="venueDetails?.generalInfo?.childRule" class="mb-2">
+                  <p class="header mb-0">Child Rule</p>
+                  <app-expandable-text [text]="venueDetails.generalInfo.childRule"></app-expandable-text>
+                </div>
+              </div>
+            </div>
+            <div class="col text-center mb-4 mt-2">
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#oneAndOnlyModal" (click)="this.venueLocationService.getPosition(this.venueDetails)">
+                Show venue on Google map
+              </button>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</div>
